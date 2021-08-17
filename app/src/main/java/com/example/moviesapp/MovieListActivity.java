@@ -41,7 +41,11 @@ public class MovieListActivity extends AppCompatActivity {
         movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
 
-//        btn.setOnClickListener(view -> GetRetrofitResponse());
+        btn.setOnClickListener(view -> searchMoviesApi("Fast", 1));
+    }
+
+    public void searchMoviesApi(String query, int pageNumber){
+        movieListViewModel.searchMoviesApi(query, pageNumber);
     }
 
     // Observing data change
@@ -51,6 +55,11 @@ public class MovieListActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<MovieModel> movieModels) {
 
+                if(movieModels != null){
+                    for(MovieModel movieModel: movieModels){
+                        Log.v("Tag", "onChanged: " + movieModel.getTitle());
+                    }
+                }
             }
         });
     }
