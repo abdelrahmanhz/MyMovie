@@ -37,11 +37,13 @@ public class MovieApiClient {
         mMovies = new MutableLiveData<>();
     }
 
-    public LiveData<List<MovieModel>> getMovies() {
+    public MutableLiveData<List<MovieModel>> getMovies() {
         return mMovies;
     }
 
     public void searchMoviesApi(String query, int pageNumber) {
+
+
 
         if(retrieveMoviesRunnable != null)
             retrieveMoviesRunnable = null;
@@ -84,8 +86,10 @@ public class MovieApiClient {
 
                 if(response.code() == 200){
                     List<MovieModel> list = new ArrayList<>(((MovieSearchResponse)response.body()).getMovies());
+
                     if (pageNumber == 1){
                         mMovies.postValue(list);
+
                     }
                     else {
                         List<MovieModel> currentMovies = mMovies.getValue();

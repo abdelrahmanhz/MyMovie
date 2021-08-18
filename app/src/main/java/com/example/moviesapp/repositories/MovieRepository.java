@@ -1,6 +1,10 @@
 package com.example.moviesapp.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.request.MovieApiClient;
 
@@ -25,7 +29,7 @@ public class MovieRepository {
         movieApiClient = MovieApiClient.getInstance();
     }
 
-    public LiveData<List<MovieModel>> getMovies(){return movieApiClient.getMovies();}
+    public MutableLiveData<List<MovieModel>> getMovies(){return movieApiClient.getMovies();}
 
     public void searchMoviesApi(String query, int pageNumber){
         movieApiClient.searchMoviesApi(query, pageNumber);

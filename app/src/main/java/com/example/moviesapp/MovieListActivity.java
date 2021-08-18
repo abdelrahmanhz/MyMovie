@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.request.Service;
@@ -40,6 +41,7 @@ public class MovieListActivity extends AppCompatActivity {
 
         movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
+        ObserveAnyChange();
 
         btn.setOnClickListener(view -> searchMoviesApi("Fast", 1));
     }
@@ -54,7 +56,6 @@ public class MovieListActivity extends AppCompatActivity {
         movieListViewModel.getMovies().observe(this, new Observer<List<MovieModel>>() {
             @Override
             public void onChanged(List<MovieModel> movieModels) {
-
                 if(movieModels != null){
                     for(MovieModel movieModel: movieModels){
                         Log.v("Tag", "onChanged: " + movieModel.getTitle());

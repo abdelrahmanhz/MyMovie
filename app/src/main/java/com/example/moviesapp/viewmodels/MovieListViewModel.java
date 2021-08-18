@@ -1,6 +1,9 @@
 package com.example.moviesapp.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.repositories.MovieRepository;
@@ -16,7 +19,7 @@ public class MovieListViewModel extends ViewModel{
         movieRepository = MovieRepository.getInstance();
     }
 
-    public LiveData<List<MovieModel>> getMovies(){
+    public MutableLiveData<List<MovieModel>> getMovies(){
         return movieRepository.getMovies();
     }
 
