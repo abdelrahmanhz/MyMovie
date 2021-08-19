@@ -3,32 +3,29 @@ package com.example.moviesapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.graphics.Movie;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
+import com.example.moviesapp.adapters.MoviesAdapter;
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.request.Service;
 import com.example.moviesapp.response.MovieSearchResponse;
 import com.example.moviesapp.utils.Constants;
 import com.example.moviesapp.utils.MovieApi;
 import com.example.moviesapp.viewmodels.MovieListViewModel;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MovieListActivity extends AppCompatActivity {
 
-    Button btn;
+    // RecyclerView
+    private RecyclerView movieRV;
+    private MoviesAdapter moviesAdapter;
 
     // ViewModel
     private MovieListViewModel movieListViewModel;
@@ -37,13 +34,17 @@ public class MovieListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.button);
+
+        movieRV = findViewById(R.id.movies_recyclerview);
+
 
         movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
+        ConfigureRecyclerView();
         ObserveAnyChange();
+        searchMoviesApi("fast", 1);
 
-        btn.setOnClickListener(view -> searchMoviesApi("Fast", 1));
+
     }
 
     public void searchMoviesApi(String query, int pageNumber){
@@ -59,6 +60,8 @@ public class MovieListActivity extends AppCompatActivity {
                 if(movieModels != null){
                     for(MovieModel movieModel: movieModels){
                         Log.v("Tag", "onChanged: " + movieModel.getTitle());
+
+                        moviesAdapter.setMovies(movieModels);
                     }
                 }
             }
@@ -100,5 +103,13 @@ public class MovieListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Initializing Recyclerview & adding data to it
+    private void ConfigureRecyclerView(){
+
+        moviesAdapter = new MoviesAdapter();
+        movieRV.setAdapter(moviesAdapter);
+        movieRV.setLayoutManager(new LinearLayoutManager(this));
     }
 }

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <androidx.cardview.widget.CardView
-        android:layout_width="268dp"
-        android:layout_height="317dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:id="@+id/card_view"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="15dp"
         app:cardElevation="10dp">
 
         <LinearLayout
@@ -27,12 +30,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:gravity="center"
+                >
 
                 <TextView
+                    android:paddingTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:gravity="center"
                     android:textColor="#000000"
                     android:id="@+id/movie_title"/>
@@ -41,33 +46,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingTop="15dp"
                     android:weightSum="100">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="90"
+                        android:layout_weight="50"
                         android:textSize="14sp"
-                        android:id="@+id/movie_category"
                         android:gravity="center"
+                        android:id="@+id/movie_release_date"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10"
+                        android:layout_weight="50"
                         android:textSize="14sp"
+                        android:gravity="center"
                         android:id="@+id/movie_duration"
-                        android:layout_gravity="center"
                         />
 
                 </LinearLayout>
 
                 <RatingBar
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:layout_margin="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_gravity="center"
+                    android:isIndicator="true"
                     android:id="@+id/rating_bar"/>
             </LinearLayout>
 
