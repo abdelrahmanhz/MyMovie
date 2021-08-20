@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moviesapp.R;
 import com.example.moviesapp.models.MovieModel;
+import com.example.moviesapp.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +35,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
         holder.movieTitle.setText(mMovies.get(position).getTitle());
         holder.movieReleaseDate.setText(mMovies.get(position).getRelease_date());
-        holder.movieDuration.setText(mMovies.get(position).getRuntime() + "");
+        holder.movieDuration.setText(mMovies.get(position).getOriginal_language());
         holder.movieRB.setRating((mMovies.get(position).getVote_average()) / 2);
         Glide.with(holder.itemView.getContext())
-                .load("https://image.tmdb.org/t/p/w500/" + mMovies.get(position).getPoster_path())
+                .load(Constants.IMG_URL + mMovies.get(position).getPoster_path())
                 .into(holder.movieIV);
 
     }

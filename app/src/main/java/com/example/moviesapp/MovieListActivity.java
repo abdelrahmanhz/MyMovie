@@ -1,6 +1,8 @@
 package com.example.moviesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,9 @@ public class MovieListActivity extends AppCompatActivity {
     private RecyclerView movieRV;
     private MoviesAdapter moviesAdapter;
 
+    // Toolbar
+    Toolbar toolbar;
+
     // ViewModel
     private MovieListViewModel movieListViewModel;
 
@@ -35,24 +40,44 @@ public class MovieListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         movieRV = findViewById(R.id.movies_recyclerview);
 
 
         movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
-        ConfigureRecyclerView();
-        ObserveAnyChange();
-        searchMoviesApi("fast", 1);
+        // SearchView
+        setupSearchView();
+        configureRecyclerView();
+        observeAnyChange();
+
 
 
     }
 
-    public void searchMoviesApi(String query, int pageNumber){
-        movieListViewModel.searchMoviesApi(query, pageNumber);
+    // SearchView
+    private void setupSearchView() {
+        final SearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                movieListViewModel.searchMoviesApi(query, 1);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
     // Observing data change
-    private void ObserveAnyChange(){
+    private void observeAnyChange(){
 
         movieListViewModel.getMovies().observe(this, new Observer<List<MovieModel>>() {
             @Override
@@ -68,45 +93,8 @@ public class MovieListActivity extends AppCompatActivity {
         });
     }
 
-    private void GetRetrofitResponse() {
-
-        MovieApi movieApi = Service.getMovieApi();
-
-        Call<MovieSearchResponse> responseCall = movieApi
-                .searchMovies(
-                        Constants.API_KEY,
-                        "Attack",
-                        1);
-
-        responseCall.enqueue(new Callback<MovieSearchResponse>() {
-            @Override
-            public void onResponse(Call<MovieSearchResponse> call, Response<MovieSearchResponse> response) {
-                if(response.code() == 200){
-                    Log.v("Tag", "the response" + response.body().toString());
-                    List<MovieModel> movies = new ArrayList<>(response.body().getMovies());
-                    for (MovieModel movie : movies){
-                        Log.v("Tag", "the movie title: " + movie.getTitle());
-                    }
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieSearchResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }
-
     // Initializing Recyclerview & adding data to it
-    private void ConfigureRecyclerView(){
+    private void configureRecyclerView(){
 
         moviesAdapter = new MoviesAdapter();
         movieRV.setAdapter(moviesAdapter);
