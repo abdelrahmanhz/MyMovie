@@ -16,6 +16,9 @@ public class MovieRepository {
 
     private static MovieRepository instance;
 
+    private String mQuery;
+    private int mPageNumber;
+
 
 
     public static MovieRepository getInstance(){
@@ -32,6 +35,13 @@ public class MovieRepository {
     public MutableLiveData<List<MovieModel>> getMovies(){return movieApiClient.getMovies();}
 
     public void searchMoviesApi(String query, int pageNumber){
+
+        mQuery = query;
+        mPageNumber = pageNumber;
         movieApiClient.searchMoviesApi(query, pageNumber);
+    }
+
+    public void searchNextPage(){
+        searchMoviesApi(mQuery, mPageNumber + 1);
     }
 }

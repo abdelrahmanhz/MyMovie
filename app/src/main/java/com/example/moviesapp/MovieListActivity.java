@@ -1,5 +1,6 @@
 package com.example.moviesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
 import com.example.moviesapp.adapters.MoviesAdapter;
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.request.Service;
@@ -16,6 +19,9 @@ import com.example.moviesapp.response.MovieSearchResponse;
 import com.example.moviesapp.utils.Constants;
 import com.example.moviesapp.utils.MovieApi;
 import com.example.moviesapp.viewmodels.MovieListViewModel;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +59,6 @@ public class MovieListActivity extends AppCompatActivity {
         setupSearchView();
         configureRecyclerView();
         observeAnyChange();
-
-
 
     }
 
@@ -99,5 +103,15 @@ public class MovieListActivity extends AppCompatActivity {
         moviesAdapter = new MoviesAdapter();
         movieRV.setAdapter(moviesAdapter);
         movieRV.setLayoutManager(new LinearLayoutManager(this));
+
+        // RecyclerView Pagination
+        movieRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                if(!recyclerView.canScrollVertically(1)){
+                    movieListViewModel.searchNextPage();
+                }
+            }
+        });
     }
 }
