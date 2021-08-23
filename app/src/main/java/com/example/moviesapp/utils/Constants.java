@@ -9,5 +9,5 @@ public class Constants {
     public static final String IMG_URL = "https://image.tmdb.org/t/p/w500/";
 
 
-
+    public static boolean POPULAR = true;
 }

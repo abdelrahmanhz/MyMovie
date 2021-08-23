@@ -1,6 +1,5 @@
-package com.example.moviesapp;
+package com.example.moviesapp.request;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 

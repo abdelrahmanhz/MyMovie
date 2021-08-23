@@ -15,4 +15,12 @@ public interface MovieApi {
             @Query("query") String query,
             @Query("page") int page
     );
+
+
+    // Get popular movies
+    @GET("/3/movie/popular")
+    Call<MovieSearchResponse> getPopularMovies(
+            @Query("api_key") String key,
+            @Query("page") int page
+    );
 }

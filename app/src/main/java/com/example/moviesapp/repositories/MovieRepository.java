@@ -1,18 +1,14 @@
 package com.example.moviesapp.repositories;
 
-import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.moviesapp.models.MovieModel;
 import com.example.moviesapp.request.MovieApiClient;
-
 import java.util.List;
 
 public class MovieRepository {
 
-    private MovieApiClient movieApiClient;
+    private final MovieApiClient movieApiClient;
 
     private static MovieRepository instance;
 
@@ -33,6 +29,7 @@ public class MovieRepository {
     }
 
     public MutableLiveData<List<MovieModel>> getMovies(){return movieApiClient.getMovies();}
+    public MutableLiveData<List<MovieModel>> getPopularMovies(){return movieApiClient.getPopularMovies();}
 
     public void searchMoviesApi(String query, int pageNumber){
 
@@ -40,8 +37,16 @@ public class MovieRepository {
         mPageNumber = pageNumber;
         movieApiClient.searchMoviesApi(query, pageNumber);
     }
+    public void searchPopularMoviesApi(int pageNumber){
+        mPageNumber = pageNumber;
+        movieApiClient.searchPopularMoviesApi(pageNumber);
+    }
 
     public void searchNextPage(){
         searchMoviesApi(mQuery, mPageNumber + 1);
     }
+    public void getNextPage(){
+        searchPopularMoviesApi(mPageNumber + 1);
+    }
+
 }

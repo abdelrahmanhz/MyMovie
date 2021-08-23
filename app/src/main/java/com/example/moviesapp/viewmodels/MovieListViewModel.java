@@ -22,12 +22,25 @@ public class MovieListViewModel extends ViewModel{
     public MutableLiveData<List<MovieModel>> getMovies(){
         return movieRepository.getMovies();
     }
+    public MutableLiveData<List<MovieModel>> getPopularMovies(){
+        return movieRepository.getPopularMovies();
+    }
+
 
     public void searchMoviesApi(String query, int pageNumber){
         movieRepository.searchMoviesApi(query, pageNumber);
     }
 
+    public void getPopularMoviesApi(int pageNumber){
+        movieRepository.searchPopularMoviesApi(pageNumber);
+    }
+
+
     public void searchNextPage(){
         movieRepository.searchNextPage();
+    }
+
+    public void getNextPage(){
+        movieRepository.getNextPage();
     }
 }
